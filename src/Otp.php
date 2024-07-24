@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace NjoguAmos\Otp;
 
-class Otp
+use Illuminate\Support\Facades\Facade;
+
+class Otp extends Facade
 {
+    protected static function getFacadeAccessor(): string
+    {
+        return 'generate-otp';
+    }
 }
