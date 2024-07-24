@@ -17,7 +17,7 @@ class OtpFactory extends Factory
         return [
             'identifier' => fake()->unique()->safeEmail(),
             'token'      => Str::random(length: 6),
-            'validity'   => fake()->numberBetween(int1: 10, int2: 20),
+            'expires_at' => now()->addMinutes(value: 10),
         ];
     }
 }

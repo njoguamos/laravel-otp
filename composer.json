@@ -1,6 +1,6 @@
 {
     "name": "njoguamos/laravel-otp",
-    "description": "An composer package for generating and verifying One Time Passwords (OTP) in Laravel 11+.",
+    "description": "A composer package for generating and verifying One Time Passwords (OTP) in Laravel 11+.",
     "keywords": [
         "Laravel",
         "OTP"
@@ -75,7 +75,7 @@
                 "NjoguAmos\\Otp\\OtpServiceProvider"
             ],
             "aliases": {
-                "Otp": "NjoguAmos\\Otp\\Facades\\Otp"
+                "Otp": "NjoguAmos\\Otp\\OtpFacade"
             }
         }
     },

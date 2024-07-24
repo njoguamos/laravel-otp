@@ -10,8 +10,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | This is the length of the generated OTP token. By default it is set to
-    | 6 digits. We recommend that the length of the OTP be at least 6 digits
-    | to ensure that the OTP is not easily guessable.
+    | 6 digits. The length of the OTP must be at least 4 digits to ensure
+    | that the OTP is not easily guessable
     |
     */
 
@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'validity' => env(key: 'OTP_VALIDITY_TIME', default: 10),
+    'validity' => env(key: 'OTP_VALIDITY', default: 10),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'digits_only' => true,
+    'digits_only' => env(key: 'OTP_DIGITS_ONLY', default: true),
 
     /*
     |--------------------------------------------------------------------------
@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'otp_lifetime' => 15,
+    'lifetime' => env(key: 'OTP_LIFETIME', default: 15),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,5 +80,5 @@ return [
     |
     */
 
-    'max_otps_count' => env(key: 'MAXIMUM_OTPS_COUNT', default: 5),
+    'max_count' => env(key: 'OTP_MAXIMUM_COUNT', default: 5),
 ];
