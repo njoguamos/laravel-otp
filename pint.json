@@ -1,0 +1,14 @@
+{
+    "preset": "psr12",
+    "rules": {
+        "declare_strict_types": true,
+        "binary_operator_spaces": {
+            "operators": {
+                "=>": "align_single_space_minimal"
+            }
+        },
+        "array_syntax": {
+            "syntax": "short"
+        }
+    }
+}
