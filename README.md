@@ -146,6 +146,24 @@ For example: you can use the `token` property to send the OTP to the user's emai
 
 ### Verify OTP
 
+@TODO
+
+### Delete Expired OTPs
+
+To periodically delete expired OTPs, you can use the `model:prune` Artisan command. This command will delete all expired OTPs from the database.
+
+To do so, add `model:prune` to your `routes/console.php` file:
+
+```php
+use Illuminate\Support\Facades\Schedule;
+use NjoguAmos\Otp\Models\Otp as OtpModel;
+
+Schedule::command('model:prune', ['--model' => [OtpModel:class]])->everyFiveMinutes();
+
+````
+> [!TIP]
+> Make sure the duration is greater than the validity time of the OTP.
+
 ## Testing
 
 ```bash
