@@ -39,7 +39,7 @@ it(description: 'can can scope by active otps', closure: function () {
 it(description: 'can get expires in attribute', closure: function () {
     testTime()->freeze();
 
-    $otp = OtpModel::factory()->create(['expires_at' => now()->addMinutes(5)]);
+    $otp = OtpModel::factory()->create(['expires_at' => now()->addMinutes(5)->addSeconds(10)]);
 
     expect(value: $otp->expires_in)->toBe(expected: '5 minutes');
 });
