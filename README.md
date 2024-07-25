@@ -1,11 +1,11 @@
 # A composer package for generating and verifying One Time Passwords (OTP) in Laravel 11+.
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/njoguamos/laravel-otp.svg?style=flat-square)](https://packagist.org/packages/njoguamos/laravel-otp)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/njoguamos/laravel-otp/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/njoguamos/laravel-otp/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/njoguamos/laravel-otp/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/njoguamos/laravel-otp/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![run-tests](https://github.com/njoguamos/laravel-otp/actions/workflows/run-tests.yml/badge.svg)](https://github.com/njoguamos/laravel-otp/actions/workflows/run-tests.yml)
+[![Fix PHP code style issues](https://github.com/njoguamos/laravel-otp/actions/workflows/fix-php-code-style-issues.yml/badge.svg)](https://github.com/njoguamos/laravel-otp/actions/workflows/fix-php-code-style-issues.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/njoguamos/laravel-otp.svg?style=flat-square)](https://packagist.org/packages/njoguamos/laravel-otp)
 
-@TODO
+A composer package for generating and verifying One Time Passwords (OTP) in Laravel 11+.
 
 ## Installation
 
