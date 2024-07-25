@@ -21,7 +21,8 @@ class OtpFactory extends Factory
         ];
     }
 
-    public function expired():static{
+    public function expired(): static
+    {
         return $this->state(fn (array $attributes) => [
             'expires_at' => now()->subMinute()
         ]);

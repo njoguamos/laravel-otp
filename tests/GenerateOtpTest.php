@@ -5,6 +5,7 @@ declare(strict_types=1);
 use NjoguAmos\Otp\InvalidArgumentException;
 use NjoguAmos\Otp\Otp;
 use NjoguAmos\Otp\Models\Otp as OtpModel;
+
 use function Spatie\PestPluginTestTime\testTime;
 
 describe(description: 'generate otp', tests: function () {
@@ -70,7 +71,7 @@ describe(description: 'validate otp', tests: function () {
 
         $otp = Otp::generate(identifier: $email);
 
-        testTime()->addMinutes(config(key: 'otp.lifetime') + 1);
+        testTime()->addMinutes(config(key: 'otp.validity') + 1);
 
         $validated = Otp::validate(identifier: $email, token: $otp->token);
 
@@ -89,16 +90,14 @@ describe(description: 'validate otp', tests: function () {
 
 describe(description: 'exception', tests: function () {
 
-
     it(description: 'throws an exception if the length is less than 4', closure: function () {
         config()->set(key: 'otp.length', value: 3);
 
         Otp::generate(identifier: 'example@gmail.com');
     })->throws(exception: InvalidArgumentException::class);
 
-    it(description: 'throws an exception if validity is less than lifetime', closure: function () {
-        config()->set(key: 'otp.lifetime', value: 5);
-        config()->set(key: 'otp.validity', value: 10);
+    it(description: 'throws an exception if validity is less than 1', closure: function () {
+        config()->set(key: 'otp.validity', value: 0);
 
         Otp::generate(identifier: '+254722000000');
     })->throws(exception: InvalidArgumentException::class);

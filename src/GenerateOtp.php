@@ -12,9 +12,6 @@ final readonly class GenerateOtp
         protected int $length,
         protected int $validity,
         protected bool $digits_only,
-        protected int $max_attempts,
-        protected int $lifetime,
-        protected int $max_count,
     ) {
     }
 

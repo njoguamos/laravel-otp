@@ -36,10 +36,10 @@ class Otp extends Model
         return new Attribute(
             get: function () {
                 return abs(
-                        num: round(
-                            num: $this->expires_at->diffInMinutes()
-                        )
-                    ) . ' minutes';
+                    num: round(
+                        num: $this->expires_at->diffInMinutes()
+                    )
+                ) . ' minutes';
             }
         );
     }
