@@ -110,7 +110,6 @@ $otp = Otp::generate(identifier: $email);
 Mail::to($email)->send(new OTPMail($order));
 ```
 
-
 ### Verify OTP
 
 To verify an OTP, you can use the `validate()` method on the `Otp` class. This method takes an `identifier` and `token` as parameters. 
@@ -147,6 +146,15 @@ Schedule::command('model:prune', ['--model' => [OtpModel:class]])->everyFiveMinu
 ````
 > [!TIP]
 > Make sure the duration is greater than the validity time of the OTP.
+
+### Security
+
+> [!TIP]
+> To prevent brute force attacks, rate limit the number of attempts to `generate` or `verify` an OTP tokens. This can be done by using the Laravel `RateLimit` middleware.
+> User can verify tokens as long as they are valid. This means that the user can have multiple valid tokens. 
+> Once the token expires, it cannot be valid even if it still exists in the database.
+> Schedule the `model:prune` command to run every 5 minutes to delete expired tokens.
+
 
 ## Testing
 
