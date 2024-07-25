@@ -13,12 +13,30 @@ it(description: 'encrypts token when saving to database', closure: function () {
 });
 
 it(description: 'can prune expired otps', closure: function () {
-    $expiredOtp = OtpModel::factory()->create(attributes: ['expires_at' => now()->subMinute()]);
-    $validOtp = OtpModel::factory()->create(attributes: ['expires_at' => now()->addMinute() ]);
+    $expiredOtp = OtpModel::factory()->expired()->create();
+    $validOtp = OtpModel::factory()->create();
 
     expect(value: OtpModel::count())->toBe(expected: 2);
 
     artisan(command: 'model:prune', parameters: ['--model' => OtpModel::class]);
 
-    expect(value: OtpModel::count())->toBe(expected: 1);
+    expect(value: OtpModel::count())->toBe(expected: 1)
+        ->and(value: $expiredOtp->fresh()?->exists())->toBeNull()
+        ->and(value: $validOtp->fresh()->exists())->toBeTrue();
+});
+
+it(description: 'can can scope by active otps', closure: function () {
+    $expiredOtp = OtpModel::factory()->expired()->create();
+    $validOtp = OtpModel::factory()->create();
+
+    $activeOtps = OtpModel::active()->get();
+
+    expect(value: $activeOtps->contains($expiredOtp))->toBeFalse()
+        ->and(value: $activeOtps->contains($validOtp))->toBeTrue();
+});
+
+it(description: 'can get expires in attribute', closure: function () {
+    $otp = OtpModel::factory()->create(['expires_at' => now()->addMinutes(5)]);
+
+    expect(value: $otp->expires_in)->toBe(expected: '5 minutes');
 });

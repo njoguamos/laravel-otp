@@ -10,3 +10,5 @@ parameters:
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
+    ignoreErrors:
+        - '#Access to an undefined property NjoguAmos\\Otp\\Models\\Otp::\$expires_at.#'
