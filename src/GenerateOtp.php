@@ -27,6 +27,14 @@ final readonly class GenerateOtp
         ]);
     }
 
+    public function validate(string $identifier, string $token): bool
+    {
+        return OtpModel::active()
+            ->where(column: 'identifier', operator: '=', value: $identifier)
+            ->where(column: 'token', operator: '=', value: $token)
+            ->exists();
+    }
+
     private function createRandomToken(): string
     {
         $randomString = '';
@@ -38,7 +46,7 @@ final readonly class GenerateOtp
         $charactersLength = strlen($characters);
 
         for ($i = 0; $i < $this->length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $randomString .= $characters[rand(min: 0, max: $charactersLength - 1)];
         }
 
         return $randomString;

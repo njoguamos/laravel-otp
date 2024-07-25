@@ -14,8 +14,6 @@ return new class extends Migration
             $table->string('identifier');
             $table->string('token');
             $table->dateTime('expires_at');
-            $table->integer('generate_count')->default(0);
-            $table->integer('attempts_count')->default(0);
 
             $table->timestamps();
         });

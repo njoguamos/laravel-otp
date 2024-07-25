@@ -5,6 +5,7 @@ declare(strict_types=1);
 use NjoguAmos\Otp\InvalidArgumentException;
 use NjoguAmos\Otp\Otp;
 use NjoguAmos\Otp\Models\Otp as OtpModel;
+use function Spatie\PestPluginTestTime\testTime;
 
 describe(description: 'generate otp', tests: function () {
 
@@ -39,6 +40,52 @@ describe(description: 'generate otp', tests: function () {
     });
 
 });
+
+describe(description: 'validate otp', tests: function () {
+
+    it(description: 'can validate an an active token', closure: function () {
+        $email = fake()->safeEmail();
+
+        $otp = Otp::generate(identifier: $email);
+
+        $validated = Otp::validate(identifier: $email, token: $otp->token);
+
+        expect(value: $validated)->toBeTrue();
+    });
+
+    it(description: 'cannot validate with invalid token', closure: function () {
+        $email = fake()->safeEmail();
+
+        Otp::generate(identifier: $email);
+
+        $validated = Otp::validate(identifier: $email, token: '123456');
+
+        expect(value: $validated)->toBeFalse();
+    });
+
+    it(description: 'cannot validate an expired token', closure: function () {
+        testTime()->freeze();
+
+        $email = fake()->safeEmail();
+
+        $otp = Otp::generate(identifier: $email);
+
+        testTime()->addMinutes(config(key: 'otp.lifetime') + 1);
+
+        $validated = Otp::validate(identifier: $email, token: $otp->token);
+
+        expect(value: $validated)->toBeFalse();
+    });
+
+    it(description: 'cannot validate a token that does not exist', closure: function () {
+        $validated = Otp::validate(identifier: fake()->safeEmail, token: random_int(min: 1000, max: 9999));
+
+        expect(value: $validated)->toBeFalse();
+    });
+
+});
+
+
 
 describe(description: 'exception', tests: function () {
 

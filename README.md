@@ -130,9 +130,9 @@ use NjoguAmos\Otp\Otp;
 
 $otp = Otp::generate(identifier: 'example@gmail.com');
 
-$otp->identifier; # "example@gmail.com"
-$otp->token; # "123456"
-$otp->expires_at; # Carbon\CarbonImmutable Object
+$otp->identifier; # example@gmail.com
+$otp->token; # 123456
+$otp->expires_in; # 10 minutes
 ```
 
 The `generate()` method returns an instance of the `\NjoguAmos\Otp\Models\Otp` Eloquent Models class. You can access the `identifier`, `token`, and `expires_at` properties of the `Otp` class. 
@@ -140,13 +140,38 @@ The `generate()` method returns an instance of the `\NjoguAmos\Otp\Models\Otp` E
 For example: you can use the `token` property to send the OTP to the user's email address.
 
 ```php
+use NjoguAmos\Otp\Otp;
+use App\Mail\OTPMail;
+use Illuminate\Support\Facades\Mail;
 
+$email = 'example@gmail.com';
+
+$otp = Otp::generate(identifier: $email);
+
+Mail::to($email)->send(new OTPMail($order));
 ```
 
 
 ### Verify OTP
 
-@TODO
+To verify an OTP, you can use the `validate()` method on the `Otp` class. This method takes an `identifier` and `token` as parameters. 
+
+If the OTP is valid, the method will return `true`. Otherwise, it will return `false`.
+
+```php
+use NjoguAmos\Otp\Otp;
+
+$email = 'example@gmail.com';
+$otp = '123456';
+
+$validated = Otp::validate(identifier: $email, token: $otp->token);
+
+$validated // True or False
+```
+
+> [!NOTE]
+> It is advisable not to let the user know if the OTP does not match, or does not exist or expired. 
+> You can return a generic message to the user instead.
 
 ### Delete Expired OTPs
 
