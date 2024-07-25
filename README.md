@@ -141,7 +141,7 @@ To do so, add `model:prune` to your `routes/console.php` file:
 use Illuminate\Support\Facades\Schedule;
 use NjoguAmos\Otp\Models\Otp as OtpModel;
 
-Schedule::command('model:prune', ['--model' => [OtpModel:class]])->everyFiveMinutes();
+Schedule::command('model:prune', ['--model' => [OtpModel::class]])->everyFiveMinutes();
 
 ````
 > [!TIP]
@@ -164,7 +164,7 @@ composer test
 
 ## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+Please see [RELEASE](https://github.com/njoguamos/laravel-otp/releases) for more information on what has changed recently.
 
 ## Contributing
 
