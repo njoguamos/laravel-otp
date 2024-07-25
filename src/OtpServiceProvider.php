@@ -28,17 +28,14 @@ class OtpServiceProvider extends PackageServiceProvider
                 throw InvalidArgumentException::create('The length of the OTP must be at least 4');
             }
 
-            if ($config['lifetime'] <= $config['validity']) {
-                throw InvalidArgumentException::create('The lifetime of the OTP must be greater than the validity');
+            if ($config['validity'] < 1) {
+                throw InvalidArgumentException::create('The validity of the OTP must be at least 1 minute.');
             }
 
             return new GenerateOtp(
                 length: $config['length'],
                 validity: $config['validity'],
-                digits_only: $config['digits_only'],
-                max_attempts: $config['max_attempts'],
-                lifetime: $config['lifetime'],
-                max_count: $config['max_count'],
+                digits_only: $config['digits_only']
             );
         });
     }

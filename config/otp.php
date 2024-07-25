@@ -42,43 +42,4 @@ return [
     */
 
     'digits_only' => env(key: 'OTP_DIGITS_ONLY', default: true),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Max OTP attempts
-    |--------------------------------------------------------------------------
-    |
-    | This is the maximum number of attempts allowed within the duration of
-    | the max_attempts time. By default it is set to 5. This means that the
-    | OTP will be valid for 5 attempts within the max_attempts time.
-    |
-    */
-
-    'max_attempts' => env(key: 'OTP_MAX_ATTEMPTS', default: 5),
-
-    /*
-    |--------------------------------------------------------------------------
-    | OTP Lifetime
-    |-------------------------------------------------------------------------
-    |
-    | This is the lifetime of the generated OTP token. By default it is set to
-    | 15 minutes. This means that the OTP will be valid for 15 minutes after
-    | it is generated. Should be greater than the validity time.
-    |
-    */
-
-    'lifetime' => env(key: 'OTP_LIFETIME', default: 15),
-
-    /*
-    |--------------------------------------------------------------------------
-    |  Maximum OTPs
-    |--------------------------------------------------------------------------
-    |
-    | This is the maximum number of OTPs allowed to be generated during the
-    | otp_lifetime time. By default it is set to 5. User will not be able
-    | to generate OTPs until the old OTPs are deleted.
-    |
-    */
-
-    'max_count' => env(key: 'OTP_MAXIMUM_COUNT', default: 5),
 ];
