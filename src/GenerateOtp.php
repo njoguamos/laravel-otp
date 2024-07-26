@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace NjoguAmos\Otp;
 
+use Illuminate\Support\Facades\Crypt;
 use NjoguAmos\Otp\Models\Otp as OtpModel;
 
 final readonly class GenerateOtp
@@ -26,10 +27,11 @@ final readonly class GenerateOtp
 
     public function validate(string $identifier, string $token): bool
     {
-        return OtpModel::active()
+        $opts = OtpModel::active()
             ->where(column: 'identifier', operator: '=', value: $identifier)
-            ->where(column: 'token', operator: '=', value: $token)
-            ->exists();
+            ->get()->pluck('token')->all();
+
+        return in_array($token, $opts);
     }
 
     private function createRandomToken(): string
