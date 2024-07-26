@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Illuminate\Support\Facades\DB;
 use NjoguAmos\Otp\Models\Otp as OtpModel;
 
 use function Pest\Laravel\artisan;
@@ -10,7 +11,10 @@ use function Spatie\PestPluginTestTime\testTime;
 it(description: 'encrypts token when saving to database', closure: function () {
     $otp = OtpModel::factory()->create(attributes: ['token' => 123456]);
 
-    expect(value: $otp->otp)->not->toBe(expected: '123456');
+    $token = DB::table('otps')->first();
+
+    expect(value: $token->token)->not->toBe(expected: $otp->token)
+        ->and(value: strlen($token->token) > 50)->toBeTrue();
 });
 
 it(description: 'can prune expired otps', closure: function () {

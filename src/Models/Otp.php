@@ -26,7 +26,7 @@ class Otp extends Model
     protected function casts(): array
     {
         return [
-            'otp'        => 'encrypted',
+            'token'      => 'encrypted',
             'expires_at' => 'immutable_datetime',
         ];
     }
