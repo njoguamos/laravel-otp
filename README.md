@@ -107,7 +107,7 @@ $email = 'example@gmail.com';
 
 $otp = Otp::generate(identifier: $email);
 
-Mail::to($email)->send(new OTPMail($order));
+Mail::to($email)->send(new OTPMail($otp));
 ```
 
 ### Verify OTP
