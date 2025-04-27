@@ -19,8 +19,6 @@ class OtpServiceProvider extends PackageServiceProvider
 
     public function registeringPackage(): void
     {
-        $this->app->alias(abstract: GenerateOtp::class, alias: 'generate-otp');
-
         $this->app->bind(abstract: GenerateOtp::class, concrete: function ($app) {
             $config = $app['config']->get('otp');
 
