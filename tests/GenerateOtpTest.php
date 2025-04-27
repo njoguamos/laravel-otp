@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
+use Illuminate\Validation\ValidationException;
 use NjoguAmos\Otp\InvalidArgumentException;
-use NjoguAmos\Otp\Otp;
 use NjoguAmos\Otp\Models\Otp as OtpModel;
+use NjoguAmos\Otp\Otp;
 
 describe(description: 'generate otp', tests: function () {
 
@@ -84,9 +85,13 @@ describe(description: 'validate otp', tests: function () {
 
 });
 
-
-
 describe(description: 'exception', tests: function () {
+    it(description: 'validates identifier length', closure: function (string $identifier) {
+        Otp::generate(identifier: $identifier);
+    })->with([
+        str_repeat('too-long', 32).'@example.com',
+        '', // Too short
+    ])->throws(exception: ValidationException::class);
 
     it(description: 'throws an exception if the length is less than 4', closure: function () {
         config()->set(key: 'otp.length', value: 3);
