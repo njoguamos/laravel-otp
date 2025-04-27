@@ -6,8 +6,6 @@ use NjoguAmos\Otp\InvalidArgumentException;
 use NjoguAmos\Otp\Otp;
 use NjoguAmos\Otp\Models\Otp as OtpModel;
 
-use function Spatie\PestPluginTestTime\testTime;
-
 describe(description: 'generate otp', tests: function () {
 
     it(description: 'can generate an OTP and save it to the database', closure: function () {
@@ -65,13 +63,13 @@ describe(description: 'validate otp', tests: function () {
     });
 
     it(description: 'cannot validate an expired token', closure: function () {
-        testTime()->freeze();
+        $this->freezeTime();
 
         $email = fake()->safeEmail();
 
         $otp = Otp::generate(identifier: $email);
 
-        testTime()->addMinutes(config(key: 'otp.validity') + 1);
+        $this->travelTo(now()->addMinutes(config(key: 'otp.validity') + 1));
 
         $validated = Otp::validate(identifier: $email, token: $otp->token);
 
