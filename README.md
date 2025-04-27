@@ -131,6 +131,22 @@ $validated // True or False
 > It is advisable not to let the user know if the OTP does not match, or does not exist or expired. 
 > You can return a generic message to the user instead.
 
+
+### Invalidating a Token
+
+It is highly recommended to invalid OTPs to avoid abuse. You can call `invalidate()` on the Otp object which deletes it from the database.
+
+```php
+use NjoguAmos\Otp\Otp;
+
+$otp = Otp::generate(identifier: 'example@gmail.com');
+
+$otp->invalidate();
+```
+
+> [!NOTE]
+> Please note that validating a token automatically invalidates it to avoid second time use
+
 ### Delete Expired OTPs
 
 To periodically delete expired OTPs, you can use the `model:prune` Artisan command. This command will delete all expired OTPs from the database.
