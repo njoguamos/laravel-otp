@@ -19,22 +19,13 @@ class OtpServiceProvider extends PackageServiceProvider
 
     public function registeringPackage(): void
     {
-        $this->app->bind(abstract: GenerateOtp::class, concrete: function ($app) {
-            $config = $app['config']->get('otp');
-
-            if ($config['length'] < 4) {
-                throw InvalidArgumentException::create('The length of the OTP must be at least 4');
-            }
-
-            if ($config['validity'] < 1) {
-                throw InvalidArgumentException::create('The validity of the OTP must be at least 1 minute.');
-            }
-
-            return new GenerateOtp(
-                length: $config['length'],
-                validity: $config['validity'],
-                digits_only: $config['digits_only']
-            );
-        });
+        $this->app->bind(
+            abstract: GenerateOtp::class,
+            concrete: fn ($app) => new GenerateOtp(
+                length: config()->integer('otp.length'),
+                validity: config()->integer('otp.validity'),
+                digits_only: config()->boolean('otp.digits_only')
+            )
+        );
     }
 }
