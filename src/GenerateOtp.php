@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace NjoguAmos\Otp;
 
-use Illuminate\Support\Facades\Crypt;
 use NjoguAmos\Otp\Models\Otp as OtpModel;
 
 final readonly class GenerateOtp
