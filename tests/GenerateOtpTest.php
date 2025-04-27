@@ -80,7 +80,7 @@ describe(description: 'validate otp', tests: function () {
     });
 
     it(description: 'cannot validate a token that does not exist', closure: function () {
-        $validated = Otp::validate(identifier: fake()->safeEmail, token: random_int(min: 1000, max: 9999));
+        $validated = Otp::validate(identifier: fake()->safeEmail, token: (string) random_int(min: 1000, max: 9999));
 
         expect(value: $validated)->toBeFalse();
     });
@@ -95,11 +95,12 @@ describe(description: 'exception', tests: function () {
         Otp::generate(identifier: 'example@gmail.com');
     })->throws(exception: InvalidArgumentException::class);
 
-    it(description: 'throws an exception if the identifier is greater than 255', closure: function () {
-        config()->set(key: 'otp.length', value: 6);
-
-        Otp::generate(identifier: str_repeat('long', 64).'@gmail.com');
-    })->throws(ValidationException::class);
+    it(description: 'throws an exception if the identifier is too short or too long', closure: function (string $identifier) {
+        Otp::generate(identifier: $identifier);
+    })->with([
+        str_repeat('too-long', 32).'@gmail.com',
+        '', // Too short
+    ])->throws(ValidationException::class);
 
     it(description: 'throws an exception if validity is less than 1', closure: function () {
         config()->set(key: 'otp.validity', value: 0);

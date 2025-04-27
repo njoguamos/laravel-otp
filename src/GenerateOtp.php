@@ -27,7 +27,7 @@ final readonly class GenerateOtp
     {
         Validator::validate(
             ['identifier' => $identifier],
-            ['identifier' => ['required', 'string', 'max:255']],
+            ['identifier' => ['required', 'max:255']],
         );
 
         return OtpModel::create([
