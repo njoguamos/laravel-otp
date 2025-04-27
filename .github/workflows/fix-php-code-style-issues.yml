@@ -5,21 +5,12 @@ on:
     paths:
       - '**.php'
 
-env:
-  PR_NUMBER: '${{ github.event.number }}'
-  SOURCE_BRANCH: '$GITHUB_HEAD_REF'
-  FIXER_BRANCH: 'auto-fixed/$GITHUB_HEAD_REF'
-  TITLE: 'Format PHP code'
-  DESCRIPTION: 'This merge request applies code style fixes from an analysis carried out through GitHub Actions.'
-
 permissions:
   contents: write
 
 jobs:
   php-code-styling:
-    if: github.event_name == 'pull_request' && ! startsWith(github.ref, 'refs/heads/auto-fixed/')
     runs-on: ubuntu-latest
-    timeout-minutes: 5
 
     steps:
       - name: Checkout code
