@@ -26,7 +26,7 @@ it(description: 'can prune expired otps', closure: function () {
     artisan(command: 'model:prune', parameters: ['--model' => OtpModel::class]);
 
     expect(value: OtpModel::count())->toBe(expected: 1)
-        ->and(value: $expiredOtp->fresh()?->exists())->toBeNull()
+        ->and(value: $expiredOtp->fresh())->toBeNull()
         ->and(value: $validOtp->fresh()->exists())->toBeTrue();
 });
 
