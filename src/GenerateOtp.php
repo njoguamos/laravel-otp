@@ -43,6 +43,7 @@ final readonly class GenerateOtp
             ->where(column: 'identifier', operator: '=', value: $identifier)
             ->get(['token', 'id'])
             ->first(
+                /** @phpstan-ignore-next-line */
                 fn (OtpModel $otp) => $otp->token === $token
             );
 
