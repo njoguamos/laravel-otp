@@ -24,14 +24,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-
-      - name: Prepare Git User
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -B "${{ env.FIXER_BRANCH }}"
 
       - name: Fix PHP code style issues
         uses: aglipanci/laravel-pint-action@2.5
