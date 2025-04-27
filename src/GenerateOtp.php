@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace NjoguAmos\Otp;
 
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Validator;
 use NjoguAmos\Otp\Models\Otp as OtpModel;
 
 final readonly class GenerateOtp
@@ -14,10 +14,22 @@ final readonly class GenerateOtp
         protected int $validity,
         protected bool $digits_only,
     ) {
+        if ($length < 4) {
+            throw InvalidArgumentException::create('The length of the OTP must be at least 4');
+        }
+
+        if ($validity < 1) {
+            throw InvalidArgumentException::create('The validity of the OTP must be at least 1 minute.');
+        }
     }
 
     public function generate(string $identifier): OtpModel
     {
+        Validator::validate(
+            ['identifier' => $identifier],
+            ['identifier' => ['required', 'string', 'max:255']],
+        );
+
         return OtpModel::create([
             'identifier' => $identifier,
             'token'      => $this->createRandomToken(),
@@ -27,27 +39,24 @@ final readonly class GenerateOtp
 
     public function validate(string $identifier, string $token): bool
     {
-        $opts = OtpModel::active()
+        return OtpModel::active()
             ->where(column: 'identifier', operator: '=', value: $identifier)
-            ->get()->pluck('token')->all();
-
-        return in_array($token, $opts);
+            ->get('token')
+            ->contains(
+                fn (OtpModel $otp) => $otp->token === $token
+            );
     }
 
     private function createRandomToken(): string
     {
-        $randomString = '';
-
         $characters = $this->digits_only
             ? '0123456789'
             : '0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
 
-        $charactersLength = strlen($characters);
-
-        for ($i = 0; $i < $this->length; $i++) {
-            $randomString .= $characters[rand(min: 0, max: $charactersLength - 1)];
-        }
-
-        return $randomString;
+        return substr(
+            string: str_shuffle(str_repeat($characters, $this->length)),
+            offset: 0,
+            length: $this->length,
+        );
     }
 }
