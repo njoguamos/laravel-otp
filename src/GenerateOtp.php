@@ -48,18 +48,14 @@ final readonly class GenerateOtp
 
     private function createRandomToken(): string
     {
-        $randomString = '';
-
         $characters = $this->digits_only
             ? '0123456789'
             : '0123456789ABCDEFGHJKLMNPQRSTUVWXYZ';
 
-        $charactersLength = strlen($characters);
-
-        for ($i = 0; $i < $this->length; $i++) {
-            $randomString .= $characters[rand(min: 0, max: $charactersLength - 1)];
-        }
-
-        return $randomString;
+        return substr(
+            string: str_shuffle(str_repeat($characters, $this->length)),
+            offset: 0,
+            length: $this->length,
+        );
     }
 }
