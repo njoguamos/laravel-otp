@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace NjoguAmos\Otp;
 
-use Illuminate\Config\Repository;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
