@@ -46,3 +46,11 @@ it(description: 'can get expires in attribute', closure: function () {
 
     expect(value: $otp->expires_in)->toBe(expected: '5 minutes');
 });
+
+it(description: 'deletes invalidated tokens', closure: function () {
+    $otp = OtpModel::factory()->create();
+
+    $otp->invalidate();
+
+    expect(value: $otp->fresh())->toBeNull();
+});

@@ -53,6 +53,14 @@ describe(description: 'validate otp', tests: function () {
         expect(value: $validated)->toBeTrue();
     });
 
+    it(description: 'invalidates token upon first use', closure: function () {
+        $otp = OtpModel::factory()->create();
+
+        Otp::validate(identifier: $otp->identifier, token: $otp->token);
+
+        expect(value: $otp->fresh())->toBeNull();
+    });
+
     it(description: 'cannot validate with invalid token', closure: function () {
         $email = fake()->safeEmail();
 
