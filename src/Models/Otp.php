@@ -22,7 +22,6 @@ class Otp extends Model
         'channel',
     ];
 
-
     protected function casts(): array
     {
         return [
