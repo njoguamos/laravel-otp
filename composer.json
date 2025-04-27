@@ -29,8 +29,7 @@
         "pestphp/pest-plugin-laravel": "^v3.1",
         "phpstan/extension-installer": "^1.3",
         "phpstan/phpstan-deprecation-rules": "^2.0",
-        "phpstan/phpstan-phpunit": "^2.0",
-        "spatie/pest-plugin-test-time": "^2.1"
+        "phpstan/phpstan-phpunit": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -76,7 +75,7 @@
                 "NjoguAmos\\Otp\\OtpServiceProvider"
             ],
             "aliases": {
-                "Otp": "NjoguAmos\\Otp\\OtpFacade"
+                "Otp": "NjoguAmos\\Otp\\Otp"
             }
         }
     },

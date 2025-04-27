@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\DB;
 use NjoguAmos\Otp\Models\Otp as OtpModel;
 
 use function Pest\Laravel\artisan;
-use function Spatie\PestPluginTestTime\testTime;
 
 it(description: 'encrypts token when saving to database', closure: function () {
     $otp = OtpModel::factory()->create(attributes: ['token' => 123456]);
@@ -41,7 +40,7 @@ it(description: 'can can scope by active otps', closure: function () {
 });
 
 it(description: 'can get expires in attribute', closure: function () {
-    testTime()->freeze();
+    $this->freezeTime();
 
     $otp = OtpModel::factory()->create(['expires_at' => now()->addMinutes(5)->addSeconds(10)]);
 

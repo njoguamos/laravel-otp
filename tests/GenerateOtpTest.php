@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
+use Illuminate\Validation\ValidationException;
 use NjoguAmos\Otp\InvalidArgumentException;
-use NjoguAmos\Otp\Otp;
 use NjoguAmos\Otp\Models\Otp as OtpModel;
-
-use function Spatie\PestPluginTestTime\testTime;
+use NjoguAmos\Otp\Otp;
 
 describe(description: 'generate otp', tests: function () {
 
@@ -18,10 +17,12 @@ describe(description: 'generate otp', tests: function () {
 
         $dbOtp = OtpModel::firstWhere(column: 'identifier', operator: '=', value: $identifier);
 
-        expect(value: $dbOtp->token)->toBe(expected: $otp->token)
-            ->and(value: $dbOtp->identifier)->toBe(expected: $identifier)
-            ->and(value: $dbOtp->identifier)->toBe(expected: $otp->identifier)
-            ->and(value: $otp->token)->toBeDigitsOfLength(config(key: 'otp.length'));
+        expect(value: $dbOtp)
+            ->token->toBe(expected: $otp->token)
+            ->identifier->toBe(expected: $identifier)
+            ->identifier->toBe(expected: $otp->identifier)
+            ->token->toBeDigitsOfLength(config(key: 'otp.length'))
+            ->is($otp)->toBeTrue();
     });
 
     it(description: 'can generate a alphanumeric OTP', closure: function () {
@@ -65,13 +66,13 @@ describe(description: 'validate otp', tests: function () {
     });
 
     it(description: 'cannot validate an expired token', closure: function () {
-        testTime()->freeze();
+        $this->freezeTime();
 
         $email = fake()->safeEmail();
 
         $otp = Otp::generate(identifier: $email);
 
-        testTime()->addMinutes(config(key: 'otp.validity') + 1);
+        $this->travelTo(now()->addMinutes(config(key: 'otp.validity') + 1));
 
         $validated = Otp::validate(identifier: $email, token: $otp->token);
 
@@ -86,8 +87,6 @@ describe(description: 'validate otp', tests: function () {
 
 });
 
-
-
 describe(description: 'exception', tests: function () {
 
     it(description: 'throws an exception if the length is less than 4', closure: function () {
@@ -95,6 +94,12 @@ describe(description: 'exception', tests: function () {
 
         Otp::generate(identifier: 'example@gmail.com');
     })->throws(exception: InvalidArgumentException::class);
+
+    it(description: 'throws an exception if the identifier is greater than 255', closure: function () {
+        config()->set(key: 'otp.length', value: 6);
+
+        Otp::generate(identifier: str_repeat('long', 64).'@gmail.com');
+    })->throws(ValidationException::class);
 
     it(description: 'throws an exception if validity is less than 1', closure: function () {
         config()->set(key: 'otp.validity', value: 0);
