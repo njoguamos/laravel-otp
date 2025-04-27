@@ -39,11 +39,17 @@ final readonly class GenerateOtp
 
     public function validate(string $identifier, string $token): bool
     {
-        $opts = OtpModel::active()
+        $model = OtpModel::active()
             ->where(column: 'identifier', operator: '=', value: $identifier)
-            ->get()->pluck('token')->all();
+            ->get(['token', 'id'])
+            ->first(
+                fn (OtpModel $otp) => $otp->token === $token
+            );
 
-        return in_array($token, $opts);
+        return (bool) tap(
+            value: $model?->exists() === true,
+            callback: fn () => $model?->invalidate()
+        );
     }
 
     private function createRandomToken(): string

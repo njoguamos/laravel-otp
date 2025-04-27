@@ -57,4 +57,9 @@ class Otp extends Model
     {
         return static::where('expires_at', '<', now());
     }
+
+    public function invalidate(): void
+    {
+        $this->delete();
+    }
 }
