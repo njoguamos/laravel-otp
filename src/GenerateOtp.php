@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace NjoguAmos\Otp;
 
+use Illuminate\Support\Facades\Validator;
 use NjoguAmos\Otp\Models\Otp as OtpModel;
 
 final readonly class GenerateOtp
@@ -13,10 +14,22 @@ final readonly class GenerateOtp
         protected int $validity,
         protected bool $digits_only,
     ) {
+        if ($length < 4) {
+            throw InvalidArgumentException::create('The length of the OTP must be at least 4');
+        }
+
+        if ($validity < 1) {
+            throw InvalidArgumentException::create('The validity of the OTP must be at least 1 minute.');
+        }
     }
 
     public function generate(string $identifier): OtpModel
     {
+        Validator::validate(
+            ['identifier' => $identifier],
+            ['identifier' => ['required', 'max:255']],
+        );
+
         return OtpModel::create([
             'identifier' => $identifier,
             'token'      => $this->createRandomToken(),
