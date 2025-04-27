@@ -22,7 +22,10 @@ class Otp extends Model
         'channel',
     ];
 
-
+    public function invalidate(): void
+    {
+        $this->delete();
+    }
     protected function casts(): array
     {
         return [

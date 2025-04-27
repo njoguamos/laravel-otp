@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use NjoguAmos\Otp\Models\Otp as OtpModel;
 
 use function Pest\Laravel\artisan;
+use function Pest\Laravel\assertDatabaseMissing;
 
 it(description: 'encrypts token when saving to database', closure: function () {
     $otp = OtpModel::factory()->create(attributes: ['token' => 123456]);
@@ -45,4 +46,14 @@ it(description: 'can get expires in attribute', closure: function () {
     $otp = OtpModel::factory()->create(['expires_at' => now()->addMinutes(5)->addSeconds(10)]);
 
     expect(value: $otp->expires_in)->toBe(expected: '5 minutes');
+});
+
+it(description: 'deletes invalidated tokens', closure: function () {
+    $otp = OtpModel::factory()->create();
+
+    $otp->invalidate();
+
+    expect(value: $otp->fresh())->toBeNull();
+
+    assertDatabaseMissing(table: 'otps', data: ['id' => $otp->getKey()]);
 });
