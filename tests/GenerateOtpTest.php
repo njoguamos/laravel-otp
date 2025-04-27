@@ -17,10 +17,12 @@ describe(description: 'generate otp', tests: function () {
 
         $dbOtp = OtpModel::firstWhere(column: 'identifier', operator: '=', value: $identifier);
 
-        expect(value: $dbOtp->token)->toBe(expected: $otp->token)
-            ->and(value: $dbOtp->identifier)->toBe(expected: $identifier)
-            ->and(value: $dbOtp->identifier)->toBe(expected: $otp->identifier)
-            ->and(value: $otp->token)->toBeDigitsOfLength(config(key: 'otp.length'));
+        expect(value: $dbOtp)
+            ->token->toBe(expected: $otp->token)
+            ->identifier->toBe(expected: $identifier)
+            ->identifier->toBe(expected: $otp->identifier)
+            ->is($otp)->toBeTrue()
+            ->token->toBeDigitsOfLength(config(key: 'otp.length'));
     });
 
     it(description: 'can generate a alphanumeric OTP', closure: function () {
