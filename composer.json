@@ -76,7 +76,7 @@
                 "NjoguAmos\\Otp\\OtpServiceProvider"
             ],
             "aliases": {
-                "Otp": "NjoguAmos\\Otp\\OtpFacade"
+                "Otp": "NjoguAmos\\Otp\\Otp"
             }
         }
     },
