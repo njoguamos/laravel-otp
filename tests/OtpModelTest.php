@@ -8,12 +8,13 @@ use NjoguAmos\Otp\Models\Otp as OtpModel;
 use function Pest\Laravel\artisan;
 
 it(description: 'encrypts token when saving to database', closure: function () {
-    $otp = OtpModel::factory()->create(attributes: ['token' => 123456]);
+    $model = OtpModel::factory()->create(attributes: ['token' => 123456]);
 
-    $token = DB::table('otps')->first();
+    $raw = DB::table('otps')->first();
 
-    expect(value: $token->token)->not->toBe(expected: $otp->token)
-        ->and(value: strlen($token->token) > 50)->toBeTrue();
+    expect(value: $raw->token)
+        ->not->toBe(expected: $model->token)
+        ->and(value: strlen($raw->token) > 50)->toBeTrue();
 });
 
 it(description: 'can prune expired otps', closure: function () {
@@ -25,7 +26,7 @@ it(description: 'can prune expired otps', closure: function () {
     artisan(command: 'model:prune', parameters: ['--model' => OtpModel::class]);
 
     expect(value: OtpModel::count())->toBe(expected: 1)
-        ->and(value: $expiredOtp->fresh()?->exists())->toBeNull()
+        ->and(value: $expiredOtp->fresh())->toBeNull()
         ->and(value: $validOtp->fresh()->exists())->toBeTrue();
 });
 
