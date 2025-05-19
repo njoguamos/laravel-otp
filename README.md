@@ -193,6 +193,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## Credits
 
 - [Njogu Amos](https://github.com/njoguamos)
+- [Samuel Mwangi](https://github.com/SamuelMwangiW)
 - [All Contributors](../../contributors)
 
 ## License
