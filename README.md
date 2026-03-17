@@ -9,6 +9,11 @@ A composer package for generating and verifying One Time Passwords (OTP) in Lara
 
 ## Installation
 
+| Version | Supported Laravel |
+|---------|-------------------|
+| 1.x     | 11.x, 12.x        |
+| 2.x     | 12.x, 13.x        |
+
 You can install the package via composer:
 
 ```bash
