@@ -11,9 +11,9 @@ return new class extends Migration
         Schema::create('otps', function (Blueprint $table) {
             $table->id();
 
-            $table->string('identifier');
-            $table->string('token');
-            $table->dateTime('expires_at');
+            $table->string('identifier')->index();
+            $table->text('token');
+            $table->dateTime('expires_at')->index();
 
             $table->timestamps();
         });

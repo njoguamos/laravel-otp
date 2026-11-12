@@ -19,7 +19,6 @@ class Otp extends Model
         'identifier',
         'token',
         'expires_at',
-        'channel',
     ];
 
     protected function casts(): array
