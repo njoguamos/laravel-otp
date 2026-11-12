@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fdeedd9ea69d6b9be69b088e79e5b2c3",
+    "content-hash": "ec8b63282ec69560f89e167944dd9fa7",
     "packages": [
         {
             "name": "brick/math",
@@ -8740,7 +8740,8 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-03T12:14:22+00:00"
+            "time": "2026-11-03T12:14:22+00:00",
+            "published-time": "2026-11-03T12:14:36+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -10596,8 +10597,8 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.3 | ^8.4 | ^8.5"
+        "php": "^8.3 | ^8.4 | ^8.5 | ^8.6"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.11.0"
 }
