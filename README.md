@@ -13,6 +13,7 @@ A composer package for generating and verifying One Time Passwords (OTP) in Lara
 |---------|-------------------|
 | 1.x     | 11.x, 12.x        |
 | 2.x     | 12.x, 13.x        |
+| 3.x     | 12.x, 13.x        |
 
 You can install the package via composer:
 
@@ -82,6 +83,25 @@ return [
 
 ```
 </details>
+
+## Upgrading
+
+### From 2.x to 3.x
+
+Version 3 changes the schema of the `otps` table:
+
+- `token` is now a `text` column instead of a `string`. Tokens are stored encrypted, and an encrypted token can exceed the 255 character limit of a `string` column.
+- `identifier` and `expires_at` are now indexed. `identifier` is looked up on every validation attempt, and `expires_at` is used by the `model:prune` command.
+
+Fresh installations get the new schema automatically. Existing installations have to apply the change themselves:
+
+```sql
+ALTER TABLE otps ALTER COLUMN token TYPE text;
+CREATE INDEX otps_identifier_index ON otps (identifier);
+CREATE INDEX otps_expires_at_index ON otps (expires_at);
+```
+
+The `channel` attribute has been removed from the `Otp` model, because it was never part of the published migration.
 
 ## Usage
 
